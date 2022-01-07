@@ -56,20 +56,28 @@ class PexelsAPI:
         return file_type.split("/")[-1]
 
     def download_video(self, video: "Video"):
+        # TODO get video_file from arg
         video_file: VideoFile = min(
             (video_file for video_file in video.video_files if video_file.width),
             key=lambda video_file: video_file.width,
         )
 
         video_url = video_file.link
+        # TODO check file format
         file_format = self.get_format(video_file.file_type)
+        # TODO file name from optional arg
         file_name = f"{video_file.id}.{file_format}"
 
         response = requests.get(video_url)
+        # TODO check response
 
+        # TODO create dir if need
         open(file_name, "wb").write(response.content)
 
         return file_name
+
+
+# TODO Use pytest:
 
 
 def test_search_videos():
